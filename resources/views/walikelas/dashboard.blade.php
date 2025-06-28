@@ -100,7 +100,10 @@
                                             </span>
                                         </div>
                                     </div>
-                                    <i class="bi bi-chevron-right text-muted"></i>
+                                    <a href="{{ route('wali_kelas.presensi', $jadwal->id) }}">
+                                        <i class="bi bi-chevron-right text-muted"></i>
+                                    </a>
+                                    {{-- <i class="bi bi-chevron-right text-muted"></i> --}}
                                 </div>
                             </div>
                         @endforeach
@@ -135,21 +138,25 @@
 
     @section('nav')
         <nav class="nav bottom-nav fixed-bottom d-flex justify-content-between bg-light">
-            <a class="nav-link text-center flex-fill active" href="#">
-                <i class="bi bi-house-door-fill"></i><br>
-                Beranda
-            </a>
-            <a class="nav-link text-center flex-fill" href="#">
-                <i class="bi bi-journal-check"></i><br>
+            <a class="nav-link text-center flex-fill" href="{{ Route('wali_kelas.presensi')}}">
+                <i class="bi bi-journal-check"></i>
                 Presensi
             </a>
-            <a class="nav-link text-center flex-fill" href="#">
-                <i class="bi bi-award"></i><br>
+            <a class="nav-link text-center flex-fill" href="{{ Route('wali_kelas.nilai')}}">
+                <i class="bi bi-award"></i>
                 Nilai
             </a>
+            <a class="nav-link text-center flex-fill text-primary" href="#">
+                <i class="bi bi-house-door-fill"></i>
+                Beranda
+            </a>
             <a class="nav-link text-center flex-fill" href="{{ Route('wali_kelas.siswa')}}">
-                <i class="bi bi-people"></i><br>
+                <i class="bi bi-people"></i>
                 Siswa
+            </a>
+            <a class="nav-link text-center flex-fill" href="#">
+                <i class="bi bi-list-stars"></i>
+                Catatan
             </a>
         </nav>
     @endsection

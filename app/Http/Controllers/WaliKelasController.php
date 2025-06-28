@@ -70,21 +70,21 @@ class WaliKelasController extends Controller
                 ->sortKeysUsing('strnatcmp');
         }
 
-            // Tambahkan filter untuk pelajaran yang sedang berlangsung sekarang
-            $jadwalBerlangsung = $mengajars->flatMap(function ($jadwals, $kelasNama) use ($waktuSekarang) {
-                return $jadwals->filter(function ($jadwal) use ($waktuSekarang) {
-                    $mulai = Carbon::createFromFormat('H:i:s', $jadwal->jam_mulai);
-                    $selesai = Carbon::createFromFormat('H:i:s', $jadwal->jam_selesai);
+        // Tambahkan filter untuk pelajaran yang sedang berlangsung sekarang
+        $jadwalBerlangsung = $mengajars->flatMap(function ($jadwals, $kelasNama) use ($waktuSekarang) {
+            return $jadwals->filter(function ($jadwal) use ($waktuSekarang) {
+                $mulai = Carbon::createFromFormat('H:i:s', $jadwal->jam_mulai);
+                $selesai = Carbon::createFromFormat('H:i:s', $jadwal->jam_selesai);
 
-                    // 🟡 Log untuk debug
-                    Log::info('Waktu Sekarang: ' . $waktuSekarang->toTimeString());
-                    Log::info('Mulai: ' . $jadwal->jam_mulai);
-                    Log::info('Selesai: ' . $jadwal->jam_selesai);
+                // 🟡 Log untuk debug
+                Log::info('Waktu Sekarang: ' . $waktuSekarang->toTimeString());
+                Log::info('Mulai: ' . $jadwal->jam_mulai);
+                Log::info('Selesai: ' . $jadwal->jam_selesai);
 
-                    return $waktuSekarang->between($mulai, $selesai);
-                });
-            })->groupBy('kelas.nama_kelas')
-            ->sortKeysUsing('strnatcmp');
+                return $waktuSekarang->between($mulai, $selesai);
+            });
+        })->groupBy('kelas.nama_kelas')
+        ->sortKeysUsing('strnatcmp');
 
         // dd($jadwalBerlangsung);
 

@@ -1,29 +1,34 @@
 @extends('layout')
 @section('header')
-    <div class="main-wrapper">
-        <header class="top-header d-flex justify-content-between align-items-center px-3 py-2 border-bottom">
+        <header class="top-header d-flex justify-content-between align-items-center">
             <!-- Kiri: Tulisan Siswa -->
-            <div class="d-flex align-items-center">
-                <h5 class="mb-0">Siswa</h5>
-            </div>
-
+            <h5 class="mb-0 text-white">Siswa</h5>
             <!-- Kanan: Ikon Search -->
-            <div class="d-flex align-items-center">
-                <a href="#" class="text-decoration-none"><i class="bi bi-search fs-5"></i></a>
+            <div class="header-actions d-flex align-items-center gap-3">
+                <a href="#"><i class="bi bi-search fs-5 text-white"></i></a>
             </div>
         </header>
 @endsection
 @section('content')
-        <div class="class-filter-bar mb-3">
-            <div class="class-tabs-container d-flex gap-2">
+        <nav class="subject-tabs">
+            <ul class="nav nav-pills">
                 @foreach ($kelasDenganSiswa as $kelas)
-                    <a href="#" class="class-tab btn btn-outline-primary"
-                    data-kelas-id="kelas-{{ $kelas->id }}">{{ $kelas->nama_kelas }}</a>
+                    <li class="nav-item" style="display: inline-block;">
+                        <a class="nav-link kelas-tab"
+                            data-bs-toggle="tab"
+                            data-kelas-id="kelas-{{ $kelas->id }}"
+                            href="#"
+                        >
+                            {{ $kelas->nama_kelas }}
+                        </a>
+                    </li>
                 @endforeach
-            </div>
-        </div>
+            </ul>
+        </nav>
 
-        <main class="student-list bg-white">
+
+        {{-- <main class="student-list grades-list"> --}}
+            <div class="tab-content grades-list">
             @foreach ($kelasDenganSiswa as $kelas)
                 <div class="kelas-siswa-group" id="kelas-{{ $kelas->id }}" style="display: none;">
                     <ul class="list-group list-group-flush">
@@ -41,65 +46,73 @@
                         @endforeach
                     </ul>
                 </div>
-            @endforeach
-        </main>
-
-    </div>
+                @endforeach
+            </div>
+        {{-- </main> --}}
 @endsection
 @section('nav')
     <nav class="nav bottom-nav fixed-bottom d-flex justify-content-between bg-light">
-        <a class="nav-link text-center flex-fill" href="{{ Route('wali_kelas.dashboard')}}">
-            <i class="bi bi-house-door-fill"></i><br>
-            Beranda
-        </a>
-        <a class="nav-link text-center flex-fill" href="#">
-            <i class="bi bi-journal-check"></i><br>
+        <a class="nav-link text-center flex-fill" href="{{ Route('wali_kelas.presensi')}}">
+            <i class="bi bi-journal-check"></i>
             Presensi
         </a>
-        <a class="nav-link text-center flex-fill" href="#">
-            <i class="bi bi-award"></i><br>
+        <a class="nav-link text-center flex-fill" href="{{ Route('wali_kelas.nilai')}}">
+            <i class="bi bi-award"></i>
             Nilai
         </a>
-        <a class="nav-link text-center flex-fill active" href="#">
-            <i class="bi bi-people"></i><br>
+        <a class="nav-link text-center flex-fill" href="{{ Route('wali_kelas.dashboard')}}">
+            <i class="bi bi-house-door-fill"></i>
+            Beranda
+        </a>
+        <a class="nav-link text-center flex-fill text-primary" href="#">
+            <i class="bi bi-people"></i>
             Siswa
+        </a>
+        <a class="nav-link text-center flex-fill" href="#">
+            <i class="bi bi-list-stars"></i>
+            Catatan
         </a>
     </nav>
 @endsection
 @push('scripts')
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const tabs = document.querySelectorAll('.class-tab');
-            const kelasGroups = document.querySelectorAll('.kelas-siswa-group');
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const tabs = document.querySelectorAll('.kelas-tab'); // hanya tab kelas
+        const kelasGroups = document.querySelectorAll('.kelas-siswa-group');
 
-            function showKelas(kelasId) {
-                // Sembunyikan semua
-                kelasGroups.forEach(group => group.style.display = 'none');
-                tabs.forEach(tab => tab.classList.remove('active'));
+        function showKelas(kelasId) {
+            // Sembunyikan semua
+            kelasGroups.forEach(group => group.style.display = 'none');
+            tabs.forEach(tab => tab.classList.remove('active'));
 
-                // Tampilkan yang sesuai
-                const selectedGroup = document.getElementById(kelasId);
-                if (selectedGroup) {
-                    selectedGroup.style.display = 'block';
-                }
-
-                // Aktifkan tab yang diklik
-                document.querySelector(`[data-kelas-id="${kelasId}"]`).classList.add('active');
+            // Tampilkan yang sesuai
+            const selectedGroup = document.getElementById(kelasId);
+            if (selectedGroup) {
+                selectedGroup.style.display = 'block';
             }
 
-            // Event listener
-            tabs.forEach(tab => {
-                tab.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const kelasId = this.getAttribute('data-kelas-id');
-                    showKelas(kelasId);
-                });
+            // Aktifkan tab yang diklik
+            const selectedTab = document.querySelector(`[data-kelas-id="${kelasId}"]`);
+            if (selectedTab) {
+                selectedTab.classList.add('active');
+            }
+        }
+
+        // Event listener untuk tab kelas saja
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function (e) {
+                e.preventDefault();
+                const kelasId = this.getAttribute('data-kelas-id');
+                showKelas(kelasId);
             });
-
-            // Tampilkan kelas pertama secara default
-            if (tabs.length > 0) {
-                showKelas(tabs[0].getAttribute('data-kelas-id'));
-            }
         });
-    </script>
+
+        // Tampilkan kelas pertama secara default
+        if (tabs.length > 0) {
+            showKelas(tabs[0].getAttribute('data-kelas-id'));
+        }
+    });
+
+</script>
+
 @endpush
