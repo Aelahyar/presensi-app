@@ -16,69 +16,6 @@ use App\Models\BK;
 
 class AuthController extends Controller
 {
-    // public function showLoginForm()
-    // {
-    //     // Jika sudah login, redirect ke dashboard sesuai role
-    //     if (auth()->check()) {
-    //         return $this->redirectToDashboard();
-    //     }
-
-    //     return view('auth.login');
-    // }
-
-    // protected function redirectToDashboard()
-    // {
-    //     $user = auth()->user();
-
-    //     if ($user->isAdmin()) {
-    //         return redirect()->route('admin.dashboard');
-    //     } elseif ($user->isKepalaSekolah()) {
-    //         return redirect()->route('kepala_sekolah.dashboard');
-    //     }
-    // }
-
-    // public function login(Request $request)
-    // {
-    //     // Jika sudah login, langsung redirect
-    //     if (auth()->check()) {
-    //         return $this->redirectToDashboard();
-    //     }
-
-    //     $credentials = $request->validate([
-    //         'username' => 'required|string',
-    //         'password' => 'required|string',
-    //     ]);
-
-    //     if (Auth::attempt($credentials, $request->filled('remember'))) {
-    //         $request->session()->regenerate();
-    //         return $this->redirectToDashboard();
-    //     }
-
-    //     return back()->withErrors([
-    //         'username' => 'Kredensial tidak valid.',
-    //     ])->onlyInput('username');
-    // }
-
-
-    // public function logout(Request $request)
-    // {
-    //     // Clear semua cache
-    //     Artisan::call('cache:clear');
-    //     Artisan::call('view:clear');
-
-    //     Auth::logout();
-
-    //     $request->session()->invalidate();
-    //     $request->session()->regenerateToken();
-
-    //     // Redirect dengan header no-cache
-    //     return redirect('/login')
-    //         ->withHeaders([
-    //             'Cache-Control' => 'no-store, no-cache, must-revalidate',
-    //             'Pragma' => 'no-cache',
-    //             'Expires' => '0'
-    //         ]);
-    // }
     public function showLoginForm()
     {
         return view('auth.login');
@@ -91,10 +28,9 @@ class AuthController extends Controller
             'password' => 'required|string',
         ]);
 
-        if (Auth::attempt($credentials, $request->remember)) {
+        if (Auth::attempt($credentials, $request->filled('remember'))) {
             $request->session()->regenerate();
 
-            // Redirect berdasarkan peran
             $user = Auth::user();
             if ($user->hasRole('admin')) {
                 return redirect()->intended('/admin/dashboard');
@@ -107,7 +43,8 @@ class AuthController extends Controller
             } elseif ($user->hasRole('bk')) {
                 return redirect()->intended('/bk/dashboard');
             }
-            return redirect()->intended('/'); // Default redirect
+
+            return redirect()->intended('/');
         }
 
         return back()->withErrors([

@@ -73,7 +73,7 @@
 @endsection
 @section('nav')
     <nav class="nav bottom-nav fixed-bottom d-flex justify-content-between bg-light">
-        <a class="nav-link text-center flex-fill text-primary" href="#">
+        <a class="nav-link text-center flex-fill text-success" href="#">
             <i class="bi bi-journal-check"></i>
             Presensi
         </a>
@@ -89,7 +89,7 @@
             <i class="bi bi-people"></i>
             Siswa
         </a>
-        <a class="nav-link text-center flex-fill" href="#">
+        <a class="nav-link text-center flex-fill" href="{{ Route('catatan.wali')}}">
             <i class="bi bi-list-stars"></i>
             Catatan
         </a>

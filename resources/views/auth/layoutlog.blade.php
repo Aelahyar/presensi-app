@@ -20,7 +20,7 @@
         /* Mengaplikasikan font Poppins dan style dasar */
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #E0F7FA;
+            background-color: #e1fae0;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -34,7 +34,7 @@
             max-width: 390px;
             height: 844px;
             max-height: 90vh;
-            background-color: #89d6f3;
+            background-color: #2fed58;
             border-radius: 2rem;
             box-shadow: 0 1rem 3rem rgba(0,0,0,0.15);
             overflow: hidden;
@@ -135,13 +135,13 @@
             border-left: none;
         }
         .btn-cyan {
-            background-color: #22d3ee;
-            border-color: #22d3ee;
+            background-color: #2fed58;
+            border-color: #2fed58;
             color: white;
         }
         .btn-cyan:hover {
-            background-color: #06b6d4;
-            border-color: #06b6d4;
+            background-color: #10d406;
+            border-color: #06d43d;
             color: white;
         }
 
@@ -169,6 +169,22 @@
     </script>
     <!-- Impor Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const togglePassword = document.getElementById("togglePassword");
+            const passwordInput = document.getElementById("password");
+            const icon = document.getElementById("iconToggle");
+
+            togglePassword.addEventListener("click", function () {
+                const isPassword = passwordInput.type === "password";
+                passwordInput.type = isPassword ? "text" : "password";
+                icon.classList.toggle("bi-eye");
+                icon.classList.toggle("bi-eye-slash");
+            });
+        });
+    </script>
     <script>
         // Ambil elemen-elemen DOM
         const headerSubtitle = document.getElementById('header-subtitle');

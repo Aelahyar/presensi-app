@@ -60,8 +60,8 @@
                         </div>
                     </div>
                     <hr>
-                    <a href="#" class="text-decoration-none d-flex justify-content-between align-items-center">
-                        <span class="fw-bold" style="color: var(--primary-blue);">Lihat Semua Presensi</span>
+                    <a href="{{ Route('wali_kelas.rekap')}}" class="text-decoration-none d-flex justify-content-between align-items-center">
+                        <span class="fw-bold" style="color: black;">Lihat Semua Presensi</span>
                         <i class="bi bi-arrow-right-circle-fill" style="color: var(--primary-blue);"></i>
                     </a>
                 </div>
@@ -71,7 +71,7 @@
                 <div class="card custom-card mb-4">
                     <div class="card-body d-flex justify-content-between align-items-center">
                         <div>
-                            <h6 class="mb-1 fw-bold">Agenda & Jurnal<span class="pro-badge ms-2">Comming Soon</span></h6>
+                            <h6 class="mb-1 fw-bold">Agenda & Jurnal<span class="pro-badge ms-2" style="color: black">Comming Soon</span></h6>
                             <p class="mb-0 text-muted small">Atur agenda & jurnal mengajar anda.</p>
                         </div>
                         <i class="bi bi-chevron-right text-muted"></i>
@@ -146,7 +146,7 @@
                 <i class="bi bi-award"></i>
                 Nilai
             </a>
-            <a class="nav-link text-center flex-fill text-primary" href="#">
+            <a class="nav-link text-center flex-fill text-success" href="#">
                 <i class="bi bi-house-door-fill"></i>
                 Beranda
             </a>
@@ -154,7 +154,7 @@
                 <i class="bi bi-people"></i>
                 Siswa
             </a>
-            <a class="nav-link text-center flex-fill" href="#">
+            <a class="nav-link text-center flex-fill" href="{{ Route('catatan.wali')}}">
                 <i class="bi bi-list-stars"></i>
                 Catatan
             </a>

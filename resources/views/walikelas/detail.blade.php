@@ -43,10 +43,10 @@
     </section>
 
     <div class="table-responsive table-container">
-        <table class="table table-striped">
+        <table id="table1" class="table table-bordered table-striped nowrap" style="width:100%">
             <thead>
                 <tr>
-                    <th style="width: 10%;">No</th>
+                    <th class="text-center" style="width: 10%;">No</th>
                     <th style="width: 55%;">Siswa ({{ $dataNilai->count() }})</th>
                     <th style="width: 15%;">Nilai</th>
                     <th style="width: 15%;">Predikat</th>
@@ -56,9 +56,9 @@
                 @foreach ($dataNilai as $index => $nilai)
                     <tr>
                         <td class="text-center"><small class="text-muted d-block">{{ $index + 1 }}</small></td>
-                        <td>{{ $nilai->siswa->nama_lengkap }}</td>
+                        <td class="text-start">{{ $nilai->siswa->nama_lengkap }}</td>
                         <td class="grade-zero">{{ $nilai->nilai }}</td>
-                        <td>{{ $nilai->keterangan }}</td>
+                        <td class="text-center">{{ $nilai->keterangan }}</td>
                     </tr>
                 @endforeach
             </tbody>

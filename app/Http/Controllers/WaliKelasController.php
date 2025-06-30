@@ -5,11 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\PresensiSiswa;
 use App\Models\JadwalPelajaran;
-use App\Models\WaliKelas;
+use App\Models\Siswa;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
 
 
 class WaliKelasController extends Controller
@@ -96,5 +97,76 @@ class WaliKelasController extends Controller
 
     public function option(){
         return view('walikelas.option');
+    }
+
+    public function editProfil()
+    {
+        $user = Auth::user();
+        return view('walikelas.profil', compact('user'));
+    }
+
+    public function updateProfil(Request $request)
+    {
+        $user = Auth::user();
+
+        $request->validate([
+            'username' => 'required|string|unique:users,username,' . $user->id,
+            'email' => 'required|email|unique:users,email,' . $user->id,
+        ]);
+
+        $user->username = $request->username;
+        $user->email = $request->email;
+        $user->save();
+
+        // Update di tabel wali_kelas jika ada
+        if ($user->waliKelas) {
+            $user->waliKelas->update([
+                'email' => $request->email,
+            ]);
+        }
+
+        // Update di tabel guru jika ada
+        if ($user->guru) {
+            $user->guru->update([
+                'email' => $request->email,
+            ]);
+        }
+
+        return redirect()->back()->with('success', 'Profil berhasil diperbarui.');
+    }
+
+    public function formGantiPassword()
+    {
+        return view('walikelas.ganti-password');
+    }
+
+    public function gantiPassword(Request $request)
+    {
+        $request->validate([
+            'password_lama' => 'required',
+            'password_baru' => 'required|min:6|confirmed',
+        ]);
+
+        $user = Auth::user();
+
+        // Cek apakah password lama cocok
+        if (!Hash::check($request->password_lama, $user->password)) {
+            return back()->withErrors(['password_lama' => 'Password lama salah']);
+        }
+
+        // Update password
+        $user->password = Hash::make($request->password_baru);
+        $user->save();
+
+        return back()->with('success', 'Password berhasil diperbarui.');
+    }
+
+    public function getSiswaByKelas(Request $request)
+    {
+        $siswa = Siswa::with('kelas')
+            ->where('kelas_id', $request->kelas_id)
+            ->get();
+
+        return response()->json($siswa);
     }
 }

@@ -1,18 +1,19 @@
 @extends('layout')
 @section('header')
     <header class="top-header d-flex justify-content-center align-items-center">
-        <h5 class="mb-0 text-white text-center">Nilai</h5>
+        <h5 class="mb-0 text-white text-center">Catatan</h5>
     </header>
+
 @endsection
 @section('content')
-    <nav class="subject-tabs mb-3">
+    <nav class="subject-tabs">
         <ul class="nav nav-pills">
-            @foreach ($nilaiRingkas as $mapel => $nilaiGroup)
+            @foreach ($catatans as $kelas => $group)
                 <li class="nav-item" style="display: inline-block;">
                     <a class="nav-link {{ $loop->first ? 'active' : '' }}"
                     data-bs-toggle="tab"
-                    href="#tab-{{ Str::slug($mapel) }}">
-                        {{ $mapel }}
+                    href="#tab-{{ Str::slug($kelas) }}">
+                        {{ $kelas }}
                     </a>
                 </li>
             @endforeach
@@ -21,26 +22,28 @@
 
     <main class="grades-list">
         <div class="tab-content grades-list">
-            @foreach ($nilaiRingkas as $mapel => $kelasGroup)
-                <div class="tab-pane fade {{ $loop->first ? 'show active' : '' }}" id="tab-{{ Str::slug($mapel) }}">
+            @foreach ($catatans as $kelas => $statusGroup)
+                <div class="tab-pane fade {{ $loop->first ? 'show active' : '' }}" id="tab-{{ Str::slug($kelas) }}">
                     <div class="subject-section mb-4">
-                        @foreach ($kelasGroup as $kelas => $jenisGroup)
+                        @foreach ($statusGroup as $status => $daftarCatatan)
                             <div class="kelas-section mb-3">
-                                <h6 class="text-secondary">{{ $kelas }}</h6>
+                                <h6 class="text-secondary">{{ $status }}</h6>
 
                                 <ul class="list-group">
-                                    @foreach ($jenisGroup as $jenis => $dataNilai)
+                                    @foreach ($daftarCatatan as $catatan)
                                         <li class="list-group-item d-flex justify-content-between align-items-center">
                                             <div>
-                                                <strong>{{ $jenis }}</strong> - {{ $dataNilai->count() }} siswa
+                                                <strong>{{ $catatan->siswa->nama }}</strong>
+                                                <br>
+                                                {{ $catatan->jenis_pelanggaran }}
                                                 <br>
                                                 <small class="text-muted">
-                                                    Tanggal {{ \Carbon\Carbon::parse($dataNilai->first()->tanggal_input)->translatedFormat('d M Y') }}
+                                                    Kejadian: {{ \Carbon\Carbon::parse($catatan->tanggal_kejadian)->translatedFormat('d M Y') }}
                                                 </small>
                                             </div>
-                                            <a href="{{ route('wali_kelas.detail', ['mapel' => $dataNilai->first()->mapel_id, 'kelas' => $dataNilai->first()->siswa->kelas_id, 'jenis' => $jenis]) }}"
-                                            class="btn btn-outline-success">
-                                                Lihat Detail
+                                            <a href="{{ route('catatan.show', $catatan->id) }}"
+                                            class="btn btn-sm btn-outline-success">
+                                                Detail
                                             </a>
                                         </li>
                                     @endforeach
@@ -53,17 +56,18 @@
         </div>
     </main>
 
-    <a href="{{ Route('wali_kelas.tambah')}}" class="fab">
+    <a href="{{ route('catatan.create') }}" class="fab">
         <i class="bi bi-plus-lg text-white"></i>
     </a>
 @endsection
 @section('nav')
+
     <nav class="nav bottom-nav fixed-bottom d-flex justify-content-between bg-light">
         <a class="nav-link text-center flex-fill" href="{{ Route('wali_kelas.presensi')}}">
             <i class="bi bi-journal-check"></i>
             Presensi
         </a>
-        <a class="nav-link text-center flex-fill text-success" href="#">
+        <a class="nav-link text-center flex-fill" href="{{ Route('wali_kelas.nilai')}}">
             <i class="bi bi-award-fill"></i>
             Nilai
         </a>
@@ -75,12 +79,9 @@
             <i class="bi bi-people"></i>
             Siswa
         </a>
-        <a class="nav-link text-center flex-fill" href="{{ Route('catatan.wali')}}">
+        <a class="nav-link text-center flex-fill text-success" href="#">
             <i class="bi bi-list-stars"></i>
             Catatan
         </a>
     </nav>
 @endsection
-@push('scripts')
-
-@endpush

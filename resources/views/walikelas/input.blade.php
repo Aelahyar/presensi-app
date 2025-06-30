@@ -9,7 +9,6 @@
     <form action="{{ route('nilai-siswa.store') }}" method="POST">
     @csrf
         <section class="assessment-details">
-            {{-- <div class="d-flex justify-content-between align-items-start mb-3"> --}}
             <div class="row">
                 <div class="col-6">
                     <label for="jenis_nilai" class="form-label info-label">Nilai</label>

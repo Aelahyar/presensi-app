@@ -82,15 +82,6 @@ class NilaiController extends Controller
         return view('walikelas.input', compact('mapelList', 'kelasList'));
     }
 
-    public function getSiswaByKelas(Request $request)
-    {
-        $siswa = Siswa::with('kelas')
-            ->where('kelas_id', $request->kelas_id)
-            ->get();
-
-        return response()->json($siswa);
-    }
-
     public function store(Request $request)
     {
         $request->validate([

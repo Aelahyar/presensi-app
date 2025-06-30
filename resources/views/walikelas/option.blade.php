@@ -18,18 +18,22 @@
                         <i class="bi bi-person item-icon"></i>
                         <span>Edit Profile</span>
                     </div>
-                    <i class="bi bi-chevron-right chevron-icon"></i>
+                    <a href="{{ Route('wali_kelas.profil')}}" class="text-decoration-none d-flex justify-content-between align-items-center">
+                        <i class="bi bi-chevron-right chevron-icon"></i>
+                    </a>
                 </li>
                 <li class="list-group-item">
                     <div class="item-content">
                         <i class="bi bi-key item-icon"></i>
                         <span>Change Password</span>
                     </div>
+                    <a href="{{ Route('wali_kelas.password.form')}}" class="text-decoration-none d-flex justify-content-between align-items-center">
                     <i class="bi bi-chevron-right chevron-icon"></i>
+                    </a>
                 </li>
             </ul>
 
-            <div class="section-title">Settings</div>
+            {{-- <div class="section-title">Settings</div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
                     <div class="item-content">
@@ -84,7 +88,7 @@
                         <input class="form-check-input" type="checkbox" role="switch" id="switchGoogle">
                     </div>
                 </li>
-            </ul>
+            </ul> --}}
 
             <div class="logout-link">
                 <form action="{{ route('logout') }}" method="POST">
