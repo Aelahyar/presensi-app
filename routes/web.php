@@ -17,7 +17,7 @@ Route::get('/force-logout', function () {
     Auth::logout();
     session()->invalidate();
     session()->regenerateToken();
-    return redirect('/login');
+    return redirect('/');
 });
 
 
@@ -75,6 +75,20 @@ Route::middleware(['auth'])->group(function () {
 
     Route::middleware(['role:guru'])->prefix('guru')->group(function () {
         Route::get('/dashboard', [GuruController::class, 'dashboard'])->name('guru.dashboard');
+        // Presensi
+        Route::get('/presensi', [PresensiController::class, 'index'])->name('guru.presensi');
+        Route::get('/presensi/{jadwal}', [PresensiController::class, 'show'])->name('guru.show');
+        Route::get('/detail/presensi', [PresensiController::class, 'index'])->name('guru.index');
+        Route::post('/presensi/store', [PresensiController::class, 'store'])->name('guru.store');
+        Route::get('/rekap-presensi', [PresensiController::class, 'rekapPresensi'])->name('guru.rekap');
+        // Nilai
+        Route::get('/nilai', [NilaiController::class, 'index'])->name('guru.nilai');
+        Route::get('/nilai/tambah', [NilaiController::class, 'showInput'])->name('guru-nilai.tambah');
+        Route::post('/nilai-siswa/simpan', [NilaiController::class, 'store'])->name('guru-nilai.store');
+        Route::get('/nilai/detail/{mapel}/{kelas}/{jenis}', [NilaiController::class, 'detail'])->name('guru-nilai.detail');
+        Route::get('/nilai/edit-group', [NilaiController::class, 'editGroup'])->name('guru-nilai.editGroup');
+        Route::put('/nilai/update-group', [NilaiController::class, 'updateGroup'])->name('guru-nilai.updateGroup');
+        Route::delete('/nilai/group', [NilaiController::class, 'destroyGroup'])->name('guru-nilai.destroyGroup');
     });
 
     Route::middleware(['role:bk'])->prefix('bk')->group(function () {
@@ -86,8 +100,6 @@ Route::middleware(['auth'])->group(function () {
     });
 
 });
-
-
 
 // Route::get('/', function () {
 //     return view('welcome');

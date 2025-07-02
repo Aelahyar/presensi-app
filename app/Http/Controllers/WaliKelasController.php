@@ -22,8 +22,6 @@ class WaliKelasController extends Controller
 
     public function dashboard()
     {
-        // Tambahkan pengecekan tambahan
-        // Pastikan user adalah wali kelas
         if (!auth()->user()->hasRole('wali_kelas')) {
             abort(403, 'Unauthorized action.');
         }

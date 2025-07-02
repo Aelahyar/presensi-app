@@ -71,21 +71,13 @@
             <i class="bi bi-journal-check"></i>
             Presensi
         </a>
-        <a class="nav-link text-center flex-fill" href="{{ Route('wali_kelas.nilai')}}">
-            <i class="bi bi-award-fill"></i>
-            Nilai
-        </a>
-        <a class="nav-link text-center flex-fill" href="{{ Route('wali_kelas.dashboard')}}">
+        <a class="nav-link text-center flex-fill" href="{{ Route('guru.dashboard')}}">
             <i class="bi bi-house-door"></i>
             Beranda
         </a>
-        <a class="nav-link text-center flex-fill" href="{{ Route('wali_kelas.siswa')}}">
-            <i class="bi bi-people"></i>
-            Siswa
-        </a>
-        <a class="nav-link text-center flex-fill" href="{{ Route('catatan.wali')}}">
-            <i class="bi bi-list-stars"></i>
-            Catatan
+        <a class="nav-link text-center flex-fill" href="{{ Route('guru.nilai')}}">
+            <i class="bi bi-award-fill"></i>
+            Nilai
         </a>
     </nav>
 @endsection

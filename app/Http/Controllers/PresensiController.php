@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Log;
 class PresensiController extends Controller
 {
     public function __construct() {
-        $this->middleware(['auth', 'role:wali_kelas']);
+        $this->middleware('auth');
     }
 
     public function index() {
@@ -42,7 +42,11 @@ class PresensiController extends Controller
         ->get()
         ->groupBy(fn($item) => $item->mataPelajaran->nama_mapel);
 
-        return view('walikelas.presensi', compact('jadwalHariIni'));
+        if (auth()->user()->hasRole('wali_kelas')) {
+            return view('walikelas.presensi', compact('jadwalHariIni'));
+        } else {
+            return view('guru.presensi', compact('jadwalHariIni'));
+        }
     }
 
     public function show($jadwalId)
@@ -62,7 +66,6 @@ class PresensiController extends Controller
 
         return view('walikelas.presensi-detail', compact('jadwal', 'presensiHariIni', 'materi'));
     }
-
 
     public function store(Request $request)
     {

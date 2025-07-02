@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Log;
 class NilaiController extends Controller
 {
     public function __construct() {
-        $this->middleware(['auth', 'role:wali_kelas']);
+        $this->middleware('auth');
     }
 
     public function index(){
@@ -42,7 +42,11 @@ class NilaiController extends Controller
         });
         // dd($nilaiRingkas);
 
-    return view('walikelas.nilai', compact('nilaiRingkas'));
+        if (auth()->user()->hasRole('wali_kelas')) {
+            return view('walikelas.nilai', compact('nilaiRingkas'));
+        } else {
+            return view('guru.nilai', compact('nilaiRingkas'));
+        }
     }
 
     public function detail($mapel_id, $kelas_id, $jenis)

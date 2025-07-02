@@ -42,16 +42,19 @@
                     @forelse ($rekap as $data)
                         <tr>
                             <td>{{ $data->tanggal }}</td>
-                            <td>{{ $data->siswa->nama_lengkap }}</td>
-                            <td>{{ $data->jadwal->kelas->nama_kelas }}</td>
+                            <td>{{ $data->siswa->nama_lengkap ?? '-'  }}</td>
+                            <td>{{ $data->jadwal->kelas->nama_kelas ?? '-'  }}</td>
                             <td>{{ $data->jadwal->mataPelajaran->nama_mapel ?? '-' }}</td>
-                            <td>{{ $data->status_presensi }}</td>
-                            <td>{{ $data->materi }}</td>
+                            <td>{{ $data->status_presensi ?? '-'  }}</td>
+                            <td>{{ $data->materi ?? '-'  }}</td>
                         </tr>
                     @empty
-                        <tr>
-                            <td colspan="6" class="text-center">Data tidak ditemukan</td>
-                        </tr>
+                        {{-- <tr>
+                            <td colspan="6" class="text-center"></td>
+                        </tr> --}}
+                        <div class="alert alert-danger text-center">
+                            Data tidak ditemukan
+                        </div>
                     @endforelse
                 </tbody>
             </table>
